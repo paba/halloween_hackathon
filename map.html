@@ -129,7 +129,7 @@
 		<button class='btn', id='restart'> New Target</button>
 		<div id="counter">0</div>
 		<img id="counterImg", src="candy50.png", alt="counter"/>
-		<div id="name">Hänsel</div>
+		<div id="name">    </div>
 		
 	</div>
 	<div id="map"></div>
@@ -170,7 +170,7 @@
 			
 			var image = name.concat('.png');
 			document.getElementById('characterImg').src=image;			
-			document.getElementById('name').innerHtml = name;
+			document.getElementById('name').innerHTML = name;
 			map = new google.maps.Map(document.getElementById('map'), {
 					center: start,
 					zoom: 14,
