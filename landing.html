@@ -1,3 +1,40 @@
 <!DOCTYPE html>
 <html>
+<head> 
+<title style="color:white"> Trick or Treat on Google's Streets</title>
+</head>
+
+<body background="http://halloweengamehack.azurewebsites.net/assets/img/back.jpg">
+<h1 style="color:white"> Trick or Treat on Google's Streets </h1>
+
+<div style="color:white">
+<p> Find your bags of candy hidden on map  by using arrow keys! </p>
+</div>
+
+<select onchange="character_selection()">
+  <option value="Hansel">Hansel</option>
+  <option value="Gretel">Gretel</option>
+</select>
+
+<div style="color:white">
+<p> You are exploring Munich, Germany </p>
+</div>
+
+<input id="buttoninput" type="button" value="Go!" onclick ="button_click()"/>
+
+
+</body>
+<script language="javascript" type="text/javascript">
+
+var character ="Hansel"
+function button_click()
+{
+	window.location.href = "index.html?character="+character;
+}
+
+function character_selection()
+{
+	character =	event.target.value;
+}
+</script>
 </html>
