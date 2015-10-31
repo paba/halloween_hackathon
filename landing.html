@@ -1,40 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<title style="color:white"> Trick or Treat on Google's Streets</title>
-</head>
+<style>
+html { 
+ background: url("landing_image.png") no-repeat center center fixed; 
+ -webkit-background-size: contain;
+ -moz-background-size: contain;
+ -o-background-size: contain;
+ background-size: contain;
+}
 
-<body background="http://halloweengamehack.azurewebsites.net/assets/img/back.jpg">
-<h1 style="color:white"> Trick or Treat on Google's Streets </h1>
+</style>
+</head >
+<body>
 
-<div style="color:white">
-<p> Find your bags of candy hidden on map  by using arrow keys! </p>
-</div>
-
-<select onchange="character_selection()">
-  <option value="Hansel">Hansel</option>
-  <option value="Gretel">Gretel</option>
-</select>
-
-<div style="color:white">
-<p> You are exploring Munich, Germany </p>
-</div>
-
-<input id="buttoninput" type="button" value="Go!" onclick ="button_click()"/>
+<table style="width:100%">
+	<div >
+		<!--<td>
+		<select onchange="character_selection()">
+  		<option style="background-image:url(hansel.png);">Hansel</option>
+  		<option style="background-image:url(gratel.png);">Gratel</option>
+		</select>
+		</td>-->
+		<tr/>
+		<tr/>
+		<tr/>
+		<td> 
+			<img  onclick="character_selection('hansel')" id = "player_hansel" src = "hansel.png" alt="Hansel" style="width:250px;height:228px;visibility:visible">
+		</td>
+		<td> 
+			<img  onclick="character_selection('gratel')"  id = "player_gratel" src = "gratel.png" alt="Gratel" style="width:250px;height:228px;visibility:visible">
+		</td>
+	</div>
+</table>
 
 
 </body>
 <script language="javascript" type="text/javascript">
 
-var character ="Hansel"
-function button_click()
-{
-	window.location.href = "index.html?character="+character;
-}
 
-function character_selection()
+function character_selection(name)
 {
-	character =	event.target.value;
+	//character =	event.target.value;
+	//alert();
+	window.location.href = "map.html?character="+name;
+	// if (character == "Hansel") {
+	// 		document.getElementById("player_image").src = "hansel.png";
+	// 		//document.getElementById("player_image").style.visibility = "visible";
+	// }
+	// else
+	// {
+	// 		document.getElementById("player_image").src = "gratel.png";
+	// }
+
+
+
 }
 </script>
 </html>
