@@ -39,46 +39,108 @@
     <script>
 var panorama;
 
-function initMap() {
-  var astorPlace = {lat: 40.729884, lng: -73.990988};
+function initMap(town) {
+  var munich_coordinates = {lat: 48.1333, lng: 11.5667};
+  var munich_lat = 48.1333;
+  var munich_lng = 11.5667;
+  if (town == undefined){
+    town_coordinates = munich_coordinates; 
+  }
+  else{
+    town_coordinates = {lat: 48.1333, lng: 11.5667};
+  }
 
-  // Set up the map
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: astorPlace,
-    zoom: 18,
-    streetViewControl: false
-  });
+  get_target_coordinates(munich_lng,munich_lat,100);
+  
+  //Set map target coordinates to a street 
 
-  // Set up the markers on the map
-  var cafeMarker = new google.maps.Marker({
-      position: {lat: 40.730031, lng: -73.991428},
+    target_coordinates = "null";
+
+  var dirn = new GDirections();
+  var direction = dirn.loadFromWaypoints([newY,newX],{getPolyline:true});
+
+  var request = {
+
+    origin: {lat:newY,lng:newX},
+    destination: {lat:newY,lng:newX},
+    travelMode: google.maps.DirectionsTravelMode.DRIVING
+
+  };
+  var directionsService = new google.maps.DirectionsService();
+
+  directionsService.route(request, function(response, status){
+
+    if(status == google.maps.DirectionsStatus.OK){
+
+      //target_coordinates = response.routes[0].legs[0].start_location;
+      var cafeMarker = new google.maps.Marker({
+      //position: {lat: 40.730031, lng: -73.991428},
+      position: response.routes[0].legs[0].start_location,
       map: map,
       icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=cafe|FFFF00',
       title: 'Cafe'
   });
+      //alert(target_coordinates)
+   }
+  })      
+
+  
+
+  // Set up the map
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: town_coordinates,
+    zoom: 18,
+    streetViewControl: false
+  });
+
+ // alert(newY)
+ //  alert(newX)
+
+
+  // Set up the markers on the map
+  //var cafeMarker = new google.maps.Marker({
+      //position: {lat: 40.730031, lng: -73.991428},
+  //    position: {lat: newY, lng: newX},
+  //    map: map,
+  //    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=cafe|FFFF00',
+  //    title: 'Cafe'
+  //});
 
   var bankMarker = new google.maps.Marker({
-      position: {lat: 40.729681, lng: -73.991138},
+      position: {lat: munich_lat, lng: munich_lng},
       map: map,
       icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=dollar|FFFF00',
-      title: 'Bank'
+      title: 'Center'
   });
 
-  var busMarker = new google.maps.Marker({
-      position: {lat: 40.729559, lng: -73.990741},
-      map: map,
-      icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=bus|FFFF00',
-      title: 'Buses'
-  });
-
+  
   // We get the map's default panorama and set up some defaults.
   // Note that we don't yet set it visible.
   panorama = map.getStreetView();
-  panorama.setPosition(astorPlace);
+  panorama.setPosition(town_coordinates);
   panorama.setPov(/** @type {google.maps.StreetViewPov} */({
     heading: 265,
     pitch: 0
   }));
+}
+
+function get_target_coordinates(start_lng, start_lat, radius) {
+
+    r = (100/111300)* (radius/100);
+
+    y0 = start_lat;
+    x0 = start_lng;
+
+    u = Math.random(); 
+    v =  Math.random();
+    w = r;//r * Math.sqrt(u);
+    t = 2 * Math.PI * v;
+    x = w * Math.cos(t);
+    y1 = w * Math.sin(t);
+    x1 = x / Math.cos(y0);
+
+  newY = y0 + y1
+  newX = x0 + x1
 }
 
 function toggleStreetView() {
@@ -91,8 +153,10 @@ function toggleStreetView() {
 }
 
     </script>
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAPDUET0Qt7p2VcSk6JNU1sBSM5jMcmVqUpI7aqV44cW1cEECiThQYkcZUPRJn9vy_TWxWvuLoOfSFBw" type="text/javascript"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-0_lSL28bbR2LPKHR7ckrloVlm-O0w3s &signed_in=true&callback=initMap"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-0_lSL28bbR2LPKHR7ckrloVlm-O0w3s&signed_in=true&callback=initMap"
         async defer>
     </script>
   </body>
