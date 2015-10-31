@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Map</title>
+    <title>Trick and Treat in Google's Street</title>	
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -123,6 +123,7 @@
 	
     </style>
   </head>
+  
   <body>
 	<div id="info"> 	
 		<button class='btn', id='restart'> New Target</button>
@@ -134,7 +135,7 @@
 	<div id="map"></div>
 	<div id="panorama"></div>
     <div id="character"><img id="characterImg", src="gretel.png", alt="character"></img></div>
-	
+	<script src="jquery-1.11.3.min.js", type="text/javascript"></script>
     <script>
 
 		var map;
@@ -159,13 +160,14 @@
 				
 				return vars2[1];
 			}();
-								
+				
 			//init character
-			if (name=='Gratel'){
-				name = "Greftel"
+			if (name=='gratel'){
+				name = "Gretel"
 			}else{
 				name = "Hänsel"
 			}
+			
 			var image = name.concat('.png');
 			document.getElementById('characterImg').src=image;			
 			document.getElementById('name').innerHtml = name;
@@ -189,8 +191,7 @@
 					}
 					
 			});
-			
-			document.getElementById('panorama').focus();
+						
 			map.setStreetView(panorama);			
 			createTargetPanorama(panorama);	
 			createTarget(map);
@@ -201,6 +202,18 @@
 			document.getElementById("restart").addEventListener("click", function(){
 				updateToRandomPosition(panorama.getPosition().lng(), candyMap.getPosition().lat(), distance);			
 			});
+			
+			
+			//allow navigation by arrow keys without clicking the map first, i.e. simulate click on right div
+			//Does not work! clicks in the sky!
+			/*var e = new jQuery.Event("click");
+			e.pageX = $("#character").position().left + $("#character").width();
+			e.pageY = $("#character").position().top + $("#character").height();
+			alert(e.pageX)
+			alert(e.pageY)
+			google.maps.event.addListener(map, 'tilesloaded', function() {    
+				$("#panorama").children().children().first().children().trigger(e);
+			});*/
 		}
 
 	
@@ -215,6 +228,7 @@
 			});
 			
 		}
+		
 
 		function createTargetPanorama(_map){			
 			candyPanorama = new google.maps.Marker({
@@ -282,7 +296,7 @@
 			if(status == google.maps.DirectionsStatus.OK){
 					candyMap.setPosition(response.routes[0].legs[0].start_location)
 					candyPanorama.setPosition(response.routes[0].legs[0].start_location)
-					map.setCenter()
+					map.setCenter(response.routes[0].legs[0].start_location)
 			}
 		  				  
 			   
@@ -297,5 +311,5 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-0_lSL28bbR2LPKHR7ckrloVlm-O0w3s&signed_in=true&callback=initMap"
         async defer>
     </script>
-  </body>
+	</body>
 </html>
