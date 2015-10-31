@@ -16,24 +16,12 @@ html {
 
 
 	<div id = "player_images">
-		<!--<td>
-		<select onchange="character_selection()">
-  		<option style="background-image:url(hansel.png);">Hansel</option>
-  		<option style="background-image:url(gratel.png);">Gratel</option>
-		</select>
-		</td>-->
-		<table style="width:100%">
-		<td> 
 			<a href="#">
 			<img  onclick="character_selection('hansel')" id = "player_hansel" src = "hansel.png" alt="Hansel" style="width:150px;visibility:visible">
 			</a>
-		</td>
-		<td> 
 			<a href="#">
 			<img  onclick="character_selection('gratel')"  id = "player_gratel" src = "gratel.png" alt="Gratel" style="width:150px;visibility:visible">
 			</a>
-		</td>
-		</table>
 	</div>
 
 
@@ -46,8 +34,8 @@ function init()
 {
 	var d = document.getElementById('player_images');
   	d.style.position = "absolute";
-  	d.style.left = 500+'px';
-  	d.style.top =300+'px';
+  	d.style.left = 560+'px';
+  	d.style.top =350+'px';
 }
 
 function character_selection(name)
