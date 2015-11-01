@@ -212,7 +212,7 @@
 			
 			var image = name.concat('.png');
 			document.getElementById('characterImg').src=image;			
-			document.getElementById('name').innerHTML = name;
+			document.getElementById('name').innerHTML = name + " in " + town;
 			map = new google.maps.Map(document.getElementById('map'), {
 					center: start,
 					zoom: 14,
@@ -281,13 +281,14 @@
 			});	
 			
 			candyPanorama.addListener('click', function(){
-					var checkPosition = true;					
-					if (checkPosition){
-						//animate 
-						candyPanorama.setAnimation(google.maps.Animation.BOUNCE);
-						//remove it and replace
-						setTimeout(collectCandy, 2000);
-					}
+					var snd = new Audio("ding.wav");
+					snd.play();
+					snd.currentTime=0;
+					//animate 
+					candyPanorama.setAnimation(google.maps.Animation.BOUNCE);
+					//remove it and replace
+					setTimeout(collectCandy, 2000)
+					
 				});
 		}
 
