@@ -56,7 +56,7 @@
 	<p style="font-family:Addams-Capitals; font-size: 65px;"> Trick or Treat in google&rsquo;s streets <br></p>
 	<p style="font-family:Geramond; font-size: 40px;"> Find your treats in the city of your 
 	
-	<select id= city onchange="city_selection()"">
+	<select id="city" onchange="city_selection()"">
 			<option value="" disabled selected>choice</option>
 			<option value="Helsinki">Helsinki</option>
 			<option value="Paris">Paris</option>
@@ -109,7 +109,8 @@ function character_selection(name)
 
 function city_selection()
 {
-	city = event.target.value;
+	var e = document.getElementById("city");
+	city = e.options[e.selectedIndex].value;
 	
 }
 </script>
