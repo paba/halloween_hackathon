@@ -75,14 +75,6 @@
 		vertical-align: middle;
 	}
 	
-	#restart{
-		position:relative;
-		top: 9px;
-		float:right;
-		vertical-align: middle;
-		border:none;
-		margin-left: 20px;
-	}
 	
 	
 	#characterImg{
@@ -97,16 +89,42 @@
 		margin-left: -150px;
 	}
 	
+	#highscoreForm{
+	
+		z-index: 10;  
+		position: absolute;  
+		right: 0;  
+		top: 65px;
+		float:right;
+		background-color: #555555;			
+		height: 55px;
+		border-radius: 10px;
+		opacity: 1;
+		padding-left: 20px;
+		padding-right: 10px;
+		padding-top:5px;
+		padding-bottom:5px;
+		color:#FFFFFF;
+		font-family: sans-serif;
+		font-size: 20px;
+	}
+	
 	.btn {
-	  -webkit-border-radius: 10;
-	  -moz-border-radius: 10;
-	  border-radius: 10px;
-	  font-family: Arial;
-	  color: #ffffff;
-	  font-size: 20px;
-	  background: #b32929;
-	  padding: 5px 10px 5px 10px;	  
-	  text-decoration: none;
+		-webkit-border-radius: 10;
+		-moz-border-radius: 10;
+		border-radius: 10px;
+		font-family: Arial;
+		color: #ffffff;
+		font-size: 20px;
+		background: #b32929;
+		padding: 5px 5px 5px 5px;	  
+		text-decoration: none;
+		position:relative;
+		top: 10px;
+		float:right;
+		vertical-align: middle;
+		border:none;
+		margin-left: 20px;
 	}
 
 	.btn:hover {
@@ -119,22 +137,41 @@
 	  text-decoration: none;
 	}
 	
+	#submitButton{
+		top:-5px;
+		
+	}
+	
+	input{
+		font-size:20px;
+		width:50%
+		float:right;
+	}
 	
 	
+
     </style>
   </head>
   
   <body>
 	<div id="info"> 	
+		<button class='btn', id='highscore'> Save Score </button>
 		<button class='btn', id='restart'> New Target</button>
 		<div id="counter">0</div>
 		<img id="counterImg", src="candy50.png", alt="counter"/>
-		<div id="name">    </div>
-		
+		<div id="name">    </div>		
 	</div>
+	<div id="highscoreForm"> 
+		<form action="javascript:submitScore();" id="scoreForm">
+			<label for="userName">Your Name</label><br>
+			<input id="userName" name="userName" type="text" class="required">
+			<button class="btn submit" id="submitButton" type="submit" form="scoreForm" value="Submit">Submit</button>			
+		</form>
+	</div>
+	
 	<div id="map"></div>
 	<div id="panorama"></div>
-    <div id="character"><img id="characterImg", src="gretel.png", alt="character"></img></div>
+    <div id="character"><img id="characterImg", src="Gretel_back.png", alt="character"></img></div>
 	<script src="jquery-1.11.3.min.js", type="text/javascript"></script>
     <script>
 
@@ -148,10 +185,14 @@
 		var candyPanorama;
 		var currentTargetPos;
 		var name;
+		var secretKey="trickortreat"; // Edit this value and make sure it's the same as the one stored on the server
+		var addScoreUrl="addscore.php?"; 
+		var highscoreUrl="display.php";    
 		
 
 		function initMap() {	
-		
+			$("#highscoreForm").hide()
+			
 			//get the character from the address line-height
 			name = function () {				
 				var query = window.location.href;
@@ -206,12 +247,13 @@
 			//init character
 			if (name=='gratel'){
 				name = "Gretel"
+				imgName = "Gretel_back.png"
 			}else{
 				name = "Hänsel"
+				imgName = "Hansel_back.png"
 			}
-			
-			var image = name.concat('.png');
-			document.getElementById('characterImg').src=image;			
+						
+			document.getElementById('characterImg').src=imgName;			
 			document.getElementById('name').innerHTML = name + " in " + town;
 			map = new google.maps.Map(document.getElementById('map'), {
 					center: start,
@@ -246,16 +288,12 @@
 			});
 			
 			
-			//allow navigation by arrow keys without clicking the map first, i.e. simulate click on right div
-			//Does not work! clicks in the sky!
-			/*var e = new jQuery.Event("click");
-			e.pageX = $("#character").position().left + $("#character").width();
-			e.pageY = $("#character").position().top + $("#character").height();
-			alert(e.pageX)
-			alert(e.pageY)
-			google.maps.event.addListener(map, 'tilesloaded', function() {    
-				$("#panorama").children().children().first().children().trigger(e);
-			});*/
+			//save highscore button
+			$( "#highscore" ).click(function() {
+				$("#highscoreForm").show()
+			});
+			
+			
 		}
 
 	
@@ -281,7 +319,7 @@
 			});	
 			
 			candyPanorama.addListener('click', function(){
-					var snd = new Audio("ding3.wav");
+					var snd = new Audio("ding.wav");
 					snd.play();
 					snd.currentTime=0;
 					//animate 
@@ -347,6 +385,33 @@
 		  				  
 			   
 		  })
+		}
+		
+		function submitScore(){
+			var username = $("#userName").val();			 
+			
+				//This connects to a server side php script that will add the name and score to a MySQL DB.
+				// Supply it with a string representing the players name and the players score.
+				
+			 
+				var highscore_url = addScoreUrl + "name=" + username + "&score=" + counter;
+			 
+				// Post the URL to the site and create a download object to get the result.				
+				$.post(highscore_url);
+				/*yield hs_post; // Wait until the download is done
+				if(hs_post.error) {
+					print("There was an error posting the high score: " + hs_post.error);
+				}*/
+			
+			 
+				gameObject.guiText.text = "Loading Scores";
+				hs_get = $.get(highscoreUrl, function( data ) {
+					alert( "Data Loaded: " + data );
+				});
+				
+				gameObject.guiText.text = hs_get.text; // this is a GUIText that will display the scores in game.
+				
+			}*/
 		}
 
 
