@@ -1,20 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<style>
-html { 
- background: url("landing_image.png") no-repeat center center fixed; 
- -webkit-background-size: contain;
- -moz-background-size: contain;
- -o-background-size: contain;
- background-size: contain;
-}
+<style type="text/css" media="screen">
+
+	@font-face {
+		font-family:Addams-Capitals;
+		src: url(Addams-Capitals.ttf);
+	}
+	
+	@font-face {
+		font-family:Roman_New_Times;
+		src: url(Roman_New_Times.otf);
+	}
+
+
+	#background {
+		width: 100%; 
+		height: 100%; 
+		position: fixed; 
+		left: 0px; 
+		top: 0px; 
+		z-index: -1; /* Ensure div tag stays behind content; -999 might work, too. */
+	}
+
+	.stretch {
+		width:100%;
+		height:100%;
+	}
+
+	#player_hansel { 
+	  float: right;
+	}
+
+	#player_gratel { 
+	  float: left;
+	}
+	
+	#text_field {
+	   float: left;
+	   position: absolute; 
+	   top: 1%; 
+	   left: 2%; 
+	   width: 100%; 
+	}
 
 </style>
 </head >
 <body onload= "init()">
 
+	<div id="background" >
+	    <img src="landing_image.png" class="stretch" alt="" />
+    </div>
 
+	<div id= "text_field">
+	<p style="font-family:Addams-Capitals; font-size: 65px;"> Trick or Treat in google&rsquo;s streets <br></p>
+	<p style="font-family:Geramond; font-size: 40px;"> Find your treats in the city of your 
+	
+	<select id= city onchange="city_selection()"">
+			<option value="" disabled selected>choice</option>
+			<option value="Helsinki">Helsinki</option>
+			<option value="Paris">Paris</option>
+			<option value="London">London</option>
+			<option value="Stockholm">Stockholm</option>
+			<option value="Budapest">Budapest</option>
+			<option value="Rome">Rome</option>
+			<option value="Barcelona">Barcelona</option>
+			<option value="Amsterdam">Amsterdam</option>
+			<option value="Prague">Prague</option>
+			<option value="Munich">Munich</option>
+
+	</select>
+	</p>
+	
+	<p style="font-family:Geramond; font-size: 40px;">  with H&auml;nsel&rsquo;s or Gretel&rsquo;s help <br>
+	</p>
+	<p style="font-family:Geramond; font-size: 40px; text-indent: 8em;"> Choose one:
+	</p>
+	
+	</div>
+	
 	<div id = "player_images">
 			<a href="#">
 			<img  onclick="character_selection('hansel')" id = "player_hansel" src = "hansel.png" alt="Hansel" style="width:150px;visibility:visible">
@@ -23,12 +87,11 @@ html {
 			<img  onclick="character_selection('gratel')"  id = "player_gratel" src = "gratel.png" alt="Gratel" style="width:150px;visibility:visible">
 			</a>
 	</div>
-
-
-
 </body>
+
 <script language="javascript" type="text/javascript">
 
+var city='Munich';
 
 function init()
 {
@@ -36,24 +99,18 @@ function init()
   	d.style.position = "absolute";
   	d.style.left = 560+'px';
   	d.style.top =350+'px';
+
 }
 
 function character_selection(name)
 {
-	//character =	event.target.value;
-	//alert();
-	window.location.href = "map.html?character="+name;
-	// if (character == "Hansel") {
-	// 		document.getElementById("player_image").src = "hansel.png";
-	// 		//document.getElementById("player_image").style.visibility = "visible";
-	// }
-	// else
-	// {
-	// 		document.getElementById("player_image").src = "gratel.png";
-	// }
+	window.location.href = "map.html?character="+ name +"?town="+city;
+}
 
-
-
+function city_selection()
+{
+	city = event.target.value;
+	
 }
 </script>
 </html>
