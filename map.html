@@ -156,10 +156,52 @@
 			name = function () {				
 				var query = window.location.href;
 				var vars = query.split("?");
+				var vars2 = vars[vars.length-2].split("=");
+				
+				return vars2[1];
+			}();
+			
+			town = function () {				
+				var query = window.location.href;
+				var vars = query.split("?");
 				var vars2 = vars[vars.length-1].split("=");
 				
 				return vars2[1];
 			}();
+			
+			switch (town){
+				case 'Helsinki': 
+					start = {lat: 60.166282, lng:24.939541};
+					break;
+				case 'Paris': 
+					start = {lat: 48.870974, lng:2.332329};
+					break;
+				case 'London': 
+					start = {lat:51.515097, lng:-0.141987};
+					break;
+				case 'Stockholm': 
+					start = {lat: 59.332667, lng:18.077238};
+					break;
+				case 'Budapest': 
+					start = {lat:47.505694, lng:19.046827};
+					break;
+				case 'Rome': 
+					start = {lat:41.889964, lng:12.493395};
+					break;
+				case 'Barcelona': 
+					start = {lat:41.404221, lng:2.174811};
+					break;
+				case 'Amsterdam': 
+					start = {lat:52.360536, lng:4.885981};
+					break;
+				case 'Prague': 
+					start = {lat:50.075803, lng:14.413189};
+					break;
+				case 'Munich': 
+					start = {lat: 48.145890, lng: 11.563865};
+					break;	
+				//default is Munich
+			}
 				
 			//init character
 			if (name=='gratel'){
